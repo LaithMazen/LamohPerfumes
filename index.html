@@ -1,125 +1,1288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light" dir="ltr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lamoh Perfumes</title>
-  <link rel="icon" href="./Pictures/PerfumeAE.png" type="image/png">
-  <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lamoh Perfumes</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Jost:wght@300;400;500&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+/* ── THEME VARIABLES ── */
+[data-theme="dark"] {
+  --bg: #0A0A0A;
+  --bg2: #111111;
+  --bg3: #1A1713;
+  --bg4: #221E19;
+  --border: rgba(201,169,110,0.12);
+  --border2: rgba(201,169,110,0.22);
+  --gold: #C9A96E;
+  --gold-light: #E8D5B0;
+  --gold-dark: #8B6914;
+  --text: #F5F0E8;
+  --text2: rgba(245,240,232,0.65);
+  --text3: rgba(245,240,232,0.38);
+  --cream: #FAF7F2;
+  --card-bg: linear-gradient(145deg, #1C1812, #131109);
+  --header-bg: rgba(10,10,10,0.96);
+  --search-bg: rgba(201,169,110,0.06);
+  --tag-bg: rgba(201,169,110,0.08);
+  --overlay: rgba(10,10,10,0.82);
+  --shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+[data-theme="light"] {
+  --bg: #F9F5EF;
+  --bg2: #F2EDE4;
+  --bg3: #EDE6D8;
+  --bg4: #E5DDD0;
+  --border: rgba(139,105,20,0.15);
+  --border2: rgba(139,105,20,0.3);
+  --gold: #8B6914;
+  --gold-light: #A07D20;
+  --gold-dark: #C9A96E;
+  --text: #1A1510;
+  --text2: rgba(26,21,16,0.65);
+  --text3: rgba(26,21,16,0.38);
+  --cream: #1A1510;
+  --card-bg: linear-gradient(145deg, #EDE6D8, #F2EDE4);
+  --header-bg: rgba(249,245,239,0.96);
+  --search-bg: rgba(139,105,20,0.07);
+  --tag-bg: rgba(139,105,20,0.08);
+  --overlay: rgba(249,245,239,0.88);
+  --shadow: 0 20px 60px rgba(139,105,20,0.15);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  transition:background 0.4s, color 0.4s;
+}
+
+/* RTL support */
+[dir="rtl"] { font-family: 'Tajawal', sans-serif; }
+[dir="rtl"] .logo-sub, [dir="rtl"] nav, [dir="rtl"] .header-controls { direction: rtl; }
+
+/* ── NOISE ── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9998;opacity:0.3;
+}
+
+/* ── HEADER ── */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:72px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;
+  background:var(--header-bg);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  transition:background 0.4s, border-color 0.4s;
+}
+
+.logo{cursor:pointer;text-decoration:none;}
+.logo-main{
+  font-family:'Cinzel',serif;
+  font-size:20px;letter-spacing:0.18em;
+  color:var(--gold);
+  display:block;
+  transition:color 0.3s;
+}
+.logo-sub{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:10px;
+  letter-spacing:0.4em;color:var(--text3);
+  display:block;margin-top:1px;
+}
+
+nav{display:flex;gap:36px;align-items:center;}
+nav a{
+  font-size:10px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--text2);text-decoration:none;cursor:pointer;
+  background:none;border:none;padding:0;
+  transition:color 0.3s;
+  font-family:'Jost',sans-serif;
+}
+[dir="rtl"] nav a { font-family:'Tajawal',sans-serif; font-size:12px; letter-spacing:0; }
+nav a:hover,nav a.active{color:var(--gold);}
+
+.header-controls{display:flex;align-items:center;gap:14px;}
+
+/* Theme toggle */
+.theme-toggle{
+  width:44px;height:24px;
+  background:var(--bg4);border:1px solid var(--border2);
+  border-radius:12px;cursor:pointer;
+  position:relative;transition:background 0.3s;
+  flex-shrink:0;
+}
+.theme-toggle::after{
+  content:'';position:absolute;
+  top:3px;left:3px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--gold);
+  transition:transform 0.3s;
+}
+[data-theme="light"] .theme-toggle::after{transform:translateX(20px);}
+
+/* Lang toggle */
+.lang-btn{
+  font-family:'Jost',sans-serif;font-size:10px;
+  font-weight:500;letter-spacing:0.2em;
+  color:var(--gold);border:1px solid var(--border2);
+  background:none;padding:5px 12px;cursor:pointer;
+  transition:background 0.3s,color 0.3s;
+  white-space:nowrap;
+}
+.lang-btn:hover{background:var(--gold);color:var(--bg);}
+
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;padding:4px;
+}
+.hamburger span{display:block;width:22px;height:1px;background:var(--gold);transition:all 0.3s;}
+
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ══ HOME PAGE ══ */
+#page-home{background:var(--bg);padding-top:72px;}
+
+/* HERO */
+.hero{
+  min-height:70vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  text-align:center;padding:60px 24px 50px;
+}
+[data-theme="dark"] .hero{
+  background:radial-gradient(ellipse 70% 80% at 50% 40%,rgba(201,169,110,0.06) 0%,transparent 65%),
+             linear-gradient(160deg,#0A0A0A 0%,#1A1410 60%,#0A0A0A 100%);
+}
+[data-theme="light"] .hero{
+  background:radial-gradient(ellipse 70% 80% at 50% 40%,rgba(139,105,20,0.07) 0%,transparent 65%),
+             linear-gradient(160deg,#F9F5EF 0%,#F0E8D8 60%,#F9F5EF 100%);
+}
+.hero-ring{
+  position:absolute;width:500px;height:500px;
+  border-radius:50%;border:1px solid var(--border);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:spin 50s linear infinite;pointer-events:none;
+}
+.hero-ring::after{
+  content:'';position:absolute;inset:50px;
+  border-radius:50%;border:1px solid var(--border);
+  opacity:0.5;
+}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+.hero-content{position:relative;animation:fadeUp 1s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-eyebrow{
+  font-size:9px;letter-spacing:0.55em;text-transform:uppercase;
+  color:var(--gold);opacity:0.75;margin-bottom:22px;
+}
+.hero-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(48px,9vw,108px);
+  font-weight:400;letter-spacing:0.1em;
+  color:var(--cream);line-height:1;margin-bottom:6px;
+}
+.hero-title em{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-weight:300;
+  font-size:clamp(22px,3.5vw,44px);
+  color:var(--gold);letter-spacing:0.28em;margin-top:8px;
+}
+.hero-line{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:30px auto;}
+.hero-sub{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;
+  color:var(--text2);max-width:420px;margin:0 auto 36px;line-height:1.7;
+}
+[dir="rtl"] .hero-sub{font-family:'Tajawal',sans-serif;font-style:normal;}
+
+/* SEARCH BAR */
+.search-section{
+  max-width:600px;margin:0 auto;
+  padding:0 24px 60px;
+}
+.search-wrap{
+  display:flex;align-items:center;
+  background:var(--search-bg);
+  border:1px solid var(--border2);
+  padding:0 20px;
+  transition:border-color 0.3s,background 0.3s;
+}
+.search-wrap:focus-within{border-color:var(--gold);}
+.search-icon{color:var(--gold);font-size:16px;margin-right:12px;flex-shrink:0;}
+[dir="rtl"] .search-icon{margin-right:0;margin-left:12px;}
+#searchInput{
+  flex:1;background:none;border:none;outline:none;
+  font-family:'Jost',sans-serif;font-size:13px;font-weight:300;
+  color:var(--text);padding:14px 0;letter-spacing:0.05em;
+}
+[dir="rtl"] #searchInput{font-family:'Tajawal',sans-serif;text-align:right;}
+#searchInput::placeholder{color:var(--text3);}
+
+/* SECTION HEADER */
+.sec-header{text-align:center;margin-bottom:50px;}
+.sec-tag{font-size:9px;letter-spacing:0.5em;text-transform:uppercase;color:var(--gold);opacity:0.7;margin-bottom:14px;}
+[dir="rtl"] .sec-tag{letter-spacing:0;}
+.sec-title{
+  font-family:'Cinzel',serif;font-size:clamp(26px,3.5vw,40px);
+  font-weight:400;letter-spacing:0.08em;color:var(--cream);
+}
+[dir="rtl"] .sec-title{font-family:'Tajawal',sans-serif;font-weight:700;letter-spacing:0;}
+.sec-title em{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);}
+[dir="rtl"] .sec-title em{font-family:'Tajawal',sans-serif;font-style:normal;}
+.gold-line{width:50px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:18px auto 0;}
+
+/* PRODUCTS GRID */
+.products-section{padding:0 40px 80px;max-width:1200px;margin:0 auto;}
+#noResults{
+  text-align:center;padding:60px 20px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:20px;color:var(--text3);display:none;
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:24px;
+}
+
+.product-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+  transition:transform 0.35s cubic-bezier(0.4,0,0.2,1),box-shadow 0.35s,border-color 0.35s;
+  display:flex;flex-direction:column;
+}
+.product-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow);
+  border-color:var(--border2);
+}
+
+.product-img-wrap{
+  height:280px;position:relative;overflow:hidden;
+  background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+}
+.product-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 0.5s ease;
+}
+.product-card:hover .product-img-wrap img{transform:scale(1.05);}
+
+/* CSS bottle placeholder */
+.bottle{display:flex;flex-direction:column;align-items:center;position:relative;}
+.b-cap{height:13px;border-radius:3px 3px 0 0;margin:0 auto;}
+.b-neck{height:22px;margin:0 auto;border-radius:2px 2px 0 0;}
+.b-body{border-radius:6px 6px 10px 10px;position:relative;overflow:hidden;}
+.b-body::before{
+  content:'';position:absolute;
+  top:0;left:15%;width:20%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);
+}
+.bottle-glow{
+  position:absolute;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,var(--gold) 0%,transparent 70%);
+  opacity:0.04;
+  animation:glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:0.04;}50%{opacity:0.09;}}
+
+.product-badge{
+  position:absolute;top:14px;right:14px;
+  font-size:8px;letter-spacing:0.3em;text-transform:uppercase;
+  background:var(--gold);color:var(--bg);
+  padding:4px 10px;font-weight:500;
+}
+[dir="rtl"] .product-badge{right:auto;left:14px;}
+
+.product-body{padding:22px 22px 20px;flex:1;display:flex;flex-direction:column;}
+.product-cat{
+  font-size:8px;letter-spacing:0.4em;text-transform:uppercase;
+  color:var(--gold);opacity:0.65;margin-bottom:8px;
+}
+[dir="rtl"] .product-cat{letter-spacing:0;}
+.product-name{
+  font-family:'Cinzel',serif;font-size:17px;font-weight:400;
+  letter-spacing:0.05em;color:var(--cream);margin-bottom:10px;
+}
+[dir="rtl"] .product-name{font-family:'Tajawal',sans-serif;font-weight:700;letter-spacing:0;}
+.product-desc{
+  font-size:12.5px;line-height:1.8;color:var(--text2);
+  margin-bottom:14px;flex:1;
+}
+[dir="rtl"] .product-desc{font-family:'Tajawal',sans-serif;font-size:13px;}
+.product-notes{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.note{
+  font-size:8px;letter-spacing:0.18em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid var(--border2);
+  color:var(--gold-light);opacity:0.7;
+}
+[dir="rtl"] .note{letter-spacing:0;font-family:'Tajawal',sans-serif;font-size:10px;}
+
+.product-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;}
+.product-price{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:28px;color:var(--gold);line-height:1;
+}
+[dir="rtl"] .product-price{font-family:'Tajawal',sans-serif;font-style:normal;font-size:22px;font-weight:700;}
+.product-price sup{font-size:12px;font-style:normal;opacity:0.65;font-family:'Jost',sans-serif;vertical-align:super;margin-left:2px;}
+[dir="rtl"] .product-price sup{margin-left:0;margin-right:2px;}
+
+.view-btn{
+  font-family:'Jost',sans-serif;font-size:9px;font-weight:500;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--bg);background:var(--gold);
+  border:none;padding:10px 18px;cursor:pointer;
+  transition:background 0.3s,transform 0.2s;
+  text-decoration:none;display:inline-block;
+  white-space:nowrap;
+}
+[dir="rtl"] .view-btn{font-family:'Tajawal',sans-serif;letter-spacing:0;font-size:11px;}
+.view-btn:hover{background:var(--gold-light);transform:translateY(-1px);}
+
+/* ══ PRODUCT DETAIL PAGE ══ */
+#page-detail{background:var(--bg);padding-top:72px;min-height:100vh;}
+.detail-wrap{max-width:1000px;margin:0 auto;padding:60px 40px 100px;}
+.back-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--text3);cursor:pointer;background:none;border:none;
+  margin-bottom:50px;transition:color 0.3s;
+  font-family:'Jost',sans-serif;
+}
+[dir="rtl"] .back-btn{font-family:'Tajawal',sans-serif;letter-spacing:0;flex-direction:row-reverse;}
+.back-btn:hover{color:var(--gold);}
+
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.detail-img{
+  height:480px;background:var(--bg3);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.detail-img img{width:100%;height:100%;object-fit:cover;}
+.detail-info{}
+.detail-cat{
+  font-size:9px;letter-spacing:0.45em;text-transform:uppercase;
+  color:var(--gold);opacity:0.65;margin-bottom:12px;
+}
+[dir="rtl"] .detail-cat{letter-spacing:0;font-family:'Tajawal',sans-serif;}
+.detail-name{
+  font-family:'Cinzel',serif;font-size:clamp(26px,4vw,42px);
+  font-weight:400;letter-spacing:0.06em;
+  color:var(--cream);line-height:1.2;margin-bottom:14px;
+}
+[dir="rtl"] .detail-name{font-family:'Tajawal',sans-serif;font-weight:700;letter-spacing:0;}
+.detail-price{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:44px;color:var(--gold);margin-bottom:24px;
+}
+[dir="rtl"] .detail-price{font-family:'Tajawal',sans-serif;font-style:normal;font-weight:700;}
+.detail-price sup{font-size:16px;font-style:normal;opacity:0.65;font-family:'Jost',sans-serif;}
+.detail-divider{height:1px;background:var(--border);margin-bottom:22px;}
+.detail-bio{
+  font-size:14.5px;line-height:1.95;color:var(--text2);margin-bottom:26px;
+}
+[dir="rtl"] .detail-bio{font-family:'Tajawal',sans-serif;font-size:15px;}
+
+.detail-section-label{
+  font-size:9px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);opacity:0.6;margin-bottom:12px;
+}
+[dir="rtl"] .detail-section-label{letter-spacing:0;font-family:'Tajawal',sans-serif;font-size:11px;}
+.detail-notes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
+
+.detail-specs{margin-bottom:28px;}
+.spec-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:10px 0;border-bottom:1px solid var(--border);
+  font-size:13px;
+}
+[dir="rtl"] .spec-row{font-family:'Tajawal',sans-serif;}
+.spec-key{color:var(--text3);font-size:11px;letter-spacing:0.15em;text-transform:uppercase;}
+[dir="rtl"] .spec-key{letter-spacing:0;}
+.spec-val{color:var(--text);font-weight:400;}
+
+.whatsapp-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;padding:17px;
+  background:#25D366;color:#fff;
+  font-family:'Jost',sans-serif;font-size:12px;font-weight:500;
+  letter-spacing:0.2em;text-transform:uppercase;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:background 0.3s,transform 0.2s;margin-top:8px;
+}
+[dir="rtl"] .whatsapp-btn{font-family:'Tajawal',sans-serif;letter-spacing:0;font-size:14px;flex-direction:row-reverse;}
+.whatsapp-btn:hover{background:#1ebe5d;transform:translateY(-2px);}
+.whatsapp-btn svg{width:22px;height:22px;fill:#fff;flex-shrink:0;}
+
+/* ══ FAQ SECTION ══ */
+.faq-section{
+  background:var(--bg2);border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:80px 40px;
+}
+.faq-inner{max-width:760px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--border);}
+.faq-question{
+  width:100%;background:none;border:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 0;cursor:pointer;text-align:left;gap:16px;
+  transition:color 0.3s;
+}
+[dir="rtl"] .faq-question{text-align:right;flex-direction:row-reverse;}
+.faq-q-text{
+  font-family:'Cinzel',serif;font-size:14px;font-weight:400;
+  letter-spacing:0.05em;color:var(--text);transition:color 0.3s;
+}
+[dir="rtl"] .faq-q-text{font-family:'Tajawal',sans-serif;font-weight:600;letter-spacing:0;}
+.faq-question:hover .faq-q-text,.faq-item.open .faq-q-text{color:var(--gold);}
+.faq-icon{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:var(--gold);font-size:16px;
+  transition:transform 0.3s,background 0.3s;
+}
+.faq-item.open .faq-icon{transform:rotate(45deg);background:var(--gold);color:var(--bg);}
+.faq-answer{
+  max-height:0;overflow:hidden;transition:max-height 0.4s ease,padding 0.3s;
+}
+.faq-item.open .faq-answer{max-height:300px;padding-bottom:20px;}
+.faq-answer p{
+  font-size:14px;line-height:1.9;color:var(--text2);
+  padding-bottom:4px;
+}
+[dir="rtl"] .faq-answer p{font-family:'Tajawal',sans-serif;font-size:15px;}
+
+/* ══ SOCIALS SECTION ══ */
+.socials-section{padding:80px 40px;}
+.socials-inner{max-width:700px;margin:0 auto;text-align:center;}
+.socials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:16px;margin-top:44px;
+}
+.social-card{
+  padding:34px 20px;border:1px solid var(--border);
+  background:var(--bg2);
+  text-decoration:none;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  transition:border-color 0.3s,background 0.3s,transform 0.3s;
+  cursor:pointer;
+}
+.social-card:hover{
+  border-color:var(--border2);background:var(--bg3);
+  transform:translateY(-4px);
+}
+.social-icon-wrap{
+  width:54px;height:54px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+  border:1px solid var(--border2);
+  background:var(--tag-bg);
+}
+.social-name{
+  font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.15em;
+  color:var(--cream);text-transform:uppercase;
+}
+[dir="rtl"] .social-name{font-family:'Tajawal',sans-serif;font-weight:600;letter-spacing:0;font-size:14px;}
+.social-handle{font-size:11px;color:var(--text3);letter-spacing:0.08em;}
+[dir="rtl"] .social-handle{font-family:'Tajawal',sans-serif;letter-spacing:0;}
+
+/* ══ ABOUT PAGE ══ */
+#page-about{background:var(--bg);padding-top:72px;min-height:100vh;}
+.page-hero{
+  padding:70px 40px 60px;text-align:center;
+  border-bottom:1px solid var(--border);
+  background:var(--bg2);
+}
+.page-hero-title{
+  font-family:'Cinzel',serif;font-size:clamp(30px,5vw,52px);
+  font-weight:400;letter-spacing:0.1em;color:var(--cream);
+}
+[dir="rtl"] .page-hero-title{font-family:'Tajawal',sans-serif;font-weight:700;letter-spacing:0;}
+.page-hero-title em{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:0.55em;color:var(--gold);
+  letter-spacing:0.35em;margin-top:8px;
+}
+[dir="rtl"] .page-hero-title em{font-family:'Tajawal',sans-serif;font-style:normal;letter-spacing:0;}
+.about-body{max-width:1100px;margin:0 auto;padding:70px 40px;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start;margin-bottom:70px;}
+.about-text h2{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:34px;font-weight:300;color:var(--gold);margin-bottom:22px;line-height:1.3;
+}
+[dir="rtl"] .about-text h2{font-family:'Tajawal',sans-serif;font-style:normal;font-weight:700;}
+.about-text p{font-size:14px;line-height:1.95;color:var(--text2);margin-bottom:18px;}
+[dir="rtl"] .about-text p{font-family:'Tajawal',sans-serif;font-size:15px;}
+.value-card{
+  background:var(--bg2);border:1px solid var(--border);padding:40px 36px;
+  position:relative;
+}
+.value-card::before{
+  content:'';position:absolute;
+  top:10px;left:10px;right:-10px;bottom:-10px;
+  border:1px solid var(--border);pointer-events:none;
+  opacity:0.5;
+}
+.val-title{
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.2em;
+  color:var(--gold);margin-bottom:24px;text-transform:uppercase;
+}
+[dir="rtl"] .val-title{font-family:'Tajawal',sans-serif;font-size:13px;letter-spacing:0;}
+.val-item{display:flex;gap:16px;margin-bottom:22px;align-items:flex-start;}
+[dir="rtl"] .val-item{flex-direction:row-reverse;}
+.val-num{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:30px;color:var(--gold);opacity:0.3;line-height:1;min-width:28px;
+}
+.val-content h4{
+  font-family:'Jost',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:5px;
+}
+[dir="rtl"] .val-content h4{font-family:'Tajawal',sans-serif;letter-spacing:0;font-size:13px;}
+.val-content p{font-size:12.5px;line-height:1.7;color:var(--text2);margin:0;}
+[dir="rtl"] .val-content p{font-family:'Tajawal',sans-serif;text-align:right;font-size:13px;}
+.stats-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);
+}
+.stat-cell{background:var(--bg);padding:32px 20px;text-align:center;}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:46px;color:var(--gold);line-height:1;display:block;
+}
+[dir="rtl"] .stat-num{font-family:'Tajawal',sans-serif;font-style:normal;font-weight:700;}
+.stat-lbl{
+  font-size:9px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--text3);margin-top:8px;display:block;
+}
+[dir="rtl"] .stat-lbl{letter-spacing:0;font-family:'Tajawal',sans-serif;font-size:11px;}
+
+/* ══ POLICY PAGE ══ */
+#page-policy{background:var(--bg);padding-top:72px;min-height:100vh;}
+.policy-body{max-width:740px;margin:0 auto;padding:70px 40px 100px;}
+.policy-sec{margin-bottom:48px;}
+.policy-sec h2{
+  font-family:'Cinzel',serif;font-size:14px;font-weight:400;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+  padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+[dir="rtl"] .policy-sec h2{font-family:'Tajawal',sans-serif;font-size:16px;letter-spacing:0;text-align:right;}
+.policy-sec p{font-size:13.5px;line-height:1.95;color:var(--text2);margin-bottom:14px;}
+[dir="rtl"] .policy-sec p{font-family:'Tajawal',sans-serif;font-size:15px;text-align:right;}
+.policy-sec ul{padding-left:18px;margin-bottom:14px;}
+[dir="rtl"] .policy-sec ul{padding-left:0;padding-right:18px;}
+.policy-sec li{font-size:13.5px;line-height:1.9;color:var(--text2);margin-bottom:7px;}
+[dir="rtl"] .policy-sec li{font-family:'Tajawal',sans-serif;font-size:15px;text-align:right;}
+.policy-sec li::marker{color:var(--gold);}
+
+/* ══ CONTACT PAGE ══ */
+#page-contact{background:var(--bg);padding-top:72px;min-height:100vh;}
+.contact-body{max-width:1000px;margin:0 auto;padding:70px 40px 100px;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+.contact-info h2{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:36px;font-weight:300;color:var(--gold);margin-bottom:20px;line-height:1.3;
+}
+[dir="rtl"] .contact-info h2{font-family:'Tajawal',sans-serif;font-style:normal;font-weight:700;}
+.contact-info p{font-size:14px;line-height:1.9;color:var(--text2);margin-bottom:30px;}
+[dir="rtl"] .contact-info p{font-family:'Tajawal',sans-serif;font-size:15px;text-align:right;}
+.c-links{display:flex;flex-direction:column;gap:14px;}
+.c-link{
+  display:flex;align-items:center;gap:14px;
+  border:1px solid var(--border);padding:16px 18px;
+  text-decoration:none;color:inherit;
+  transition:border-color 0.3s,background 0.3s;
+}
+[dir="rtl"] .c-link{flex-direction:row-reverse;}
+.c-link:hover{border-color:var(--border2);background:var(--bg3);}
+.c-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--tag-bg);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
+}
+.c-lbl{
+  font-size:8px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold);opacity:0.6;display:block;margin-bottom:3px;
+}
+[dir="rtl"] .c-lbl{letter-spacing:0;font-family:'Tajawal',sans-serif;font-size:10px;}
+.c-val{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--cream);}
+[dir="rtl"] .c-val{font-family:'Tajawal',sans-serif;}
+.contact-card{background:var(--bg2);border:1px solid var(--border);padding:44px 38px;}
+.contact-card h3{
+  font-family:'Cinzel',serif;font-size:13px;letter-spacing:0.2em;
+  color:var(--gold);margin-bottom:26px;
+}
+[dir="rtl"] .contact-card h3{font-family:'Tajawal',sans-serif;font-size:15px;letter-spacing:0;text-align:right;}
+.f-field{margin-bottom:20px;}
+.f-field label{
+  display:block;font-size:8px;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--gold-light);opacity:0.6;margin-bottom:9px;
+}
+[dir="rtl"] .f-field label{letter-spacing:0;font-family:'Tajawal',sans-serif;font-size:10px;text-align:right;}
+.f-field input,.f-field textarea,.f-field select{
+  width:100%;background:var(--search-bg);border:1px solid var(--border);
+  color:var(--text);font-family:'Jost',sans-serif;font-size:13px;font-weight:300;
+  padding:12px 14px;outline:none;transition:border-color 0.3s;
+  appearance:none;
+}
+[dir="rtl"] .f-field input,[dir="rtl"] .f-field textarea,[dir="rtl"] .f-field select{
+  font-family:'Tajawal',sans-serif;text-align:right;
+}
+.f-field input:focus,.f-field textarea:focus,.f-field select:focus{border-color:var(--gold);}
+.f-field textarea{min-height:100px;resize:vertical;}
+.f-submit{
+  width:100%;background:var(--gold);color:var(--bg);
+  font-family:'Jost',sans-serif;font-size:10px;font-weight:500;
+  letter-spacing:0.28em;text-transform:uppercase;
+  padding:15px;border:none;cursor:pointer;transition:background 0.3s;
+}
+[dir="rtl"] .f-submit{font-family:'Tajawal',sans-serif;letter-spacing:0;font-size:13px;}
+.f-submit:hover{background:var(--gold-light);}
+
+/* ══ FOOTER ══ */
+footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:56px 48px 32px;
+  transition:background 0.4s;
+}
+.footer-inner{max-width:1100px;margin:0 auto;}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:52px;margin-bottom:44px;}
+.footer-brand p{font-size:12.5px;line-height:1.8;color:var(--text3);margin-top:14px;max-width:270px;}
+[dir="rtl"] .footer-brand p{font-family:'Tajawal',sans-serif;text-align:right;}
+.footer-col h4{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;
+  color:var(--gold);margin-bottom:18px;text-transform:uppercase;
+}
+[dir="rtl"] .footer-col h4{font-family:'Tajawal',sans-serif;font-size:12px;letter-spacing:0;text-align:right;}
+.footer-col a,.footer-col button{
+  display:block;font-size:12.5px;color:var(--text3);text-decoration:none;
+  margin-bottom:9px;cursor:pointer;background:none;border:none;
+  text-align:left;transition:color 0.3s;
+  font-family:'Jost',sans-serif;font-weight:300;
+}
+[dir="rtl"] .footer-col a,[dir="rtl"] .footer-col button{
+  font-family:'Tajawal',sans-serif;text-align:right;
+}
+.footer-col a:hover,.footer-col button:hover{color:var(--gold);}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:26px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:10.5px;color:var(--text3);letter-spacing:0.04em;}
+[dir="rtl"] .footer-copy{font-family:'Tajawal',sans-serif;}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:900px){
+  header{padding:0 20px;}
+  nav{
+    display:none;position:fixed;top:72px;left:0;right:0;
+    background:var(--header-bg);backdrop-filter:blur(16px);
+    flex-direction:column;padding:26px 24px;gap:20px;
+    border-bottom:1px solid var(--border);
+  }
+  nav.open{display:flex;}
+  .hamburger{display:flex;}
+  .about-grid,.contact-grid,.detail-grid{grid-template-columns:1fr;gap:36px;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .socials-grid{grid-template-columns:1fr;}
+  .footer-top{grid-template-columns:1fr;gap:30px;}
+  .products-section{padding:0 20px 60px;}
+  .section-wrap,.about-body,.policy-body,.contact-body,.detail-wrap{padding-left:20px;padding-right:20px;}
+  .faq-section,.socials-section{padding:60px 20px;}
+  .hero{padding:50px 20px 40px;}
+  .search-section{padding:0 20px 40px;}
+  footer{padding:44px 20px 28px;}
+}
+@media(max-width:500px){
+  .products-grid{grid-template-columns:1fr;}
+  .socials-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr;}
+  .detail-img{height:300px;}
+}
+</style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-container">
-      <div class="logo">
-        <h1>Lamoh Perfumes</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#products">Products</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#features">Why Us</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<!-- HEADER -->
+<header>
+  <a class="logo" onclick="showPage('home')">
+    <span class="logo-main" data-en="LAMOH" data-ar="لامو">LAMOH</span>
+    <span class="logo-sub" data-en="Perfumes" data-ar="عطور">Perfumes</span>
+  </a>
+  <nav id="mainNav">
+    <a onclick="showPage('home')" class="active" data-page="home" data-en="Home" data-ar="الرئيسية">Home</a>
+    <a onclick="showPage('about')" data-page="about" data-en="About" data-ar="من نحن">About</a>
+    <a onclick="showPage('policy')" data-page="policy" data-en="Policy" data-ar="السياسة">Policy</a>
+    <a onclick="showPage('contact')" data-page="contact" data-en="Contact" data-ar="تواصل معنا">Contact</a>
+  </nav>
+  <div class="header-controls">
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">عربي</button>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════ HOME PAGE ══════════ -->
+<div id="page-home" class="page active">
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-overlay">
-      <div class="hero-text">
-        <h2>Luxury in Every Scent</h2>
-        <p>Discover premium perfumes crafted with elegance and sophistication.</p>
-        <a href="#products" class="cta-btn">Explore Collection</a>
-      </div>
+    <div class="hero-ring"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow" data-en="Est. — Dubai, UAE" data-ar="دبي، الإمارات العربية المتحدة">Est. — Dubai, UAE</p>
+      <h1 class="hero-title">
+        <span data-en="LAMOH" data-ar="لامو">LAMOH</span>
+        <em data-en="Perfumes" data-ar="عطور فاخرة">Perfumes</em>
+      </h1>
+      <div class="hero-line"></div>
+      <p class="hero-sub" data-en="Where every bottle holds a story, and every scent becomes a memory." data-ar="حيث تحمل كل قارورة حكاية، وكل عطر يصبح ذكرى لا تُنسى.">Where every bottle holds a story, and every scent becomes a memory.</p>
     </div>
   </section>
+
 
   <!-- PRODUCTS -->
-  <section id="products">
-    <h2 class="section-title">Our Collection</h2>
-    <div class="products-grid">
-      <div class="product-card">
-        <img src="./Pictures/SwyIntensly.PNG" alt="Product Image" class="product-img">
-        <h3>Stronger With You Intensly</h3>
-        <p class="price"><span class="original-price">80 DHS</span> 60 DHS</p>
-        <a href="https://www.instagram.com/direct/new/?text=Hey,%20Can%20I%20get%20more%20info?&username=lamoh_perfumes" target="_blank" class="buy-btn">Buy</a>
-      </div>
-      <div class="product-card">
-        <img src="./Pictures/emporio-armani-stronger-with-you-tobacco-edp-m-100ml-01.jpg" alt="Product Image" class="product-img">
-        <h3>Stronger With You Tobacco</h3>
-        <p class="price"><span class="original-price">80 DHS</span> 60 DHS</p>
-        <a href="https://www.instagram.com/messages/t/lamoh_perfumes" target="_blank" class="buy-btn">Buy</a>
-      </div>
-      <div class="product-card">
-        <img src="./Pictures/SwyAbsolutely.PNG" alt="Product Image" class="product-img">
-        <h3>Stronger With You Absolutely</h3>
-        <p class="price"><span class="original-price">80 DHS</span> 60 DHS</p>
-        <a href="https://www.instagram.com/messages/t/lamoh_perfumes" target="_blank" class="buy-btn">Buy</a>
-      </div>
-      <!-- Add more products here -->
+  <div class="products-section">
+    <div class="sec-header">
+      <p class="sec-tag" data-en="Our Collection" data-ar="مجموعتنا"> </p>
+      <p class="sec-tag" data-en="Our Collection" data-ar="مجموعتنا"> </p>
+      <p class="sec-tag" data-en="Our Collection" data-ar="مجموعتنا"> </p>
+      <p class="sec-tag" data-en="Our Collection" data-ar="مجموعتنا">Our Collection</p>
+      <h2 class="sec-title" data-en="The <em>Signature</em> Collection" data-ar="المجموعة <em>الحصرية</em>">The <em>Signature</em> Collection</h2>
+      <div class="gold-line"></div>
     </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <h2 class="section-title">About Lamoh</h2>
-    <div class="about-content">
-      <p>Lamoh Perfumes creates luxurious, high-quality fragrances for those who value elegance and sophistication. Our perfumes use premium ingredients, long-lasting formulas, and exquisite packaging.</p>
+    <div class="search-section">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search fragrances..." data-en-placeholder="Search fragrances..." data-ar-placeholder="ابحث عن العطور..." oninput="filterProducts()">
     </div>
-  </section>
+  </div>
+    <p id="noResults" data-en="No fragrances found." data-ar="لا توجد نتائج.">No fragrances found.</p>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <h2 class="section-title">Why Choose Us</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <img src="" alt="Quality Icon">
-        <h3>Premium Quality</h3>
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-inner">
+      <div class="sec-header">
+        <p class="sec-tag" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</p>
+        <h2 class="sec-title" data-en="Frequently Asked <em>Questions</em>" data-ar="أسئلة <em>متكررة</em>">Frequently Asked <em>Questions</em></h2>
+        <div class="gold-line"></div>
       </div>
-      <div class="feature-card">
-        <img src="" alt="Packaging Icon">
-        <h3>Elegant Packaging</h3>
+      <div id="faqList"></div>
+    </div>
+  </div>
+
+  <!-- SOCIALS -->
+  <div class="socials-section">
+    <div class="socials-inner">
+      <div class="sec-header">
+        <p class="sec-tag" data-en="Follow Us" data-ar="تابعنا">Follow Us</p>
+        <h2 class="sec-title" data-en="Find Us <em>Online</em>" data-ar="تواصل <em>معنا</em>">Find Us <em>Online</em></h2>
+        <div class="gold-line"></div>
       </div>
-      <div class="feature-card">
-        <img src="" alt="Fast Shipping Icon">
-        <h3>Fast Shipping</h3>
-      </div>
-      <div class="feature-card">
-        <img src="" alt="Secure Payment Icon">
-        <h3>Secure Payment</h3>
+      <div class="socials-grid">
+        <a href="https://www.instagram.com/lamohperfumes" target="_blank" class="social-card">
+          <div class="social-icon-wrap">📸</div>
+          <span class="social-name" data-en="Instagram" data-ar="إنستغرام">Instagram</span>
+          <span class="social-handle">@lamohperfumes</span>
+        </a>
+        <a href="https://www.tiktok.com/@lamohperfumes" target="_blank" class="social-card">
+          <div class="social-icon-wrap">🎵</div>
+          <span class="social-name" data-en="TikTok" data-ar="تيك توك">TikTok</span>
+          <span class="social-handle">@lamohperfumes</span>
+        </a>
+        <a href="https://wa.me/971552836936" target="_blank" class="social-card">
+          <div class="social-icon-wrap">💬</div>
+          <span class="social-name" data-en="WhatsApp" data-ar="واتساب">WhatsApp</span>
+          <span class="social-handle" data-en="Message us directly" data-ar="راسلنا مباشرة">Message us directly</span>
+        </a>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2 class="section-title">Contact Us</h2>
+</div><!-- end home -->
+
+<!-- ══════════ PRODUCT DETAIL PAGE ══════════ -->
+<div id="page-detail" class="page">
+  <div class="detail-wrap">
+    <button class="back-btn" onclick="showPage('home')">
+      <span id="backArrow">←</span>
+      <span data-en="Back to Collection" data-ar="العودة للمجموعة">Back to Collection</span>
+    </button>
+    <div class="detail-grid">
+      <div class="detail-img" id="detailImg">
+        <div class="bottle" id="detailBottle"></div>
+      </div>
+      <div class="detail-info">
+        <p class="detail-cat" id="detailCat"></p>
+        <h1 class="detail-name" id="detailName"></h1>
+        <div class="detail-price" id="detailPrice"></div>
+        <div class="detail-divider"></div>
+        <p class="detail-bio" id="detailBio"></p>
+        <a id="detailWhatsApp" href="#" target="_blank" class="whatsapp-btn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <span data-en="Buy on WhatsApp" data-ar="اشتر عبر واتساب">Buy on WhatsApp</span>
+        </a><div style="height: 15px;"></div>
+        <p class="detail-section-label" data-en="Fragrance Notes" data-ar="مكونات العطر">Fragrance Notes</p>
+        <div class="detail-notes" id="detailNotes"></div>
+        <p class="detail-section-label" data-en="Details" data-ar="التفاصيل">Details</p>
+        <div class="detail-specs" id="detailSpecs"></div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ ABOUT PAGE ══════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero">
+    <h1 class="page-hero-title">
+      <span data-en="Our Story" data-ar="قصتنا">Our Story</span>
+      <em data-en="Who We Are" data-ar="من نحن">Who We Are</em>
+    </h1>
+  </div>
+  <div class="about-body">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2 data-en="Born from a passion for exceptional fragrance" data-ar="وُلدنا من شغف بالعطور الاستثنائية">Born from a passion for exceptional fragrance</h2>
+        <p data-en="Lamoh Perfumes was founded with a single belief: that everyone deserves access to truly extraordinary scents. What started as a personal obsession with rare and captivating fragrances grew into something much greater — a curated destination for perfume lovers across the UAE." data-ar="تأسست لامو عطور بإيمان راسخ: أن كل شخص يستحق الوصول إلى عطور استثنائية حقاً. ما بدأ كهواية شخصية بالعطور النادرة والساحرة تحوّل إلى وجهة منتقاة لعشاق العطور في الإمارات.">Lamoh Perfumes was founded with a single belief: that everyone deserves access to truly extraordinary scents. What started as a personal obsession with rare and captivating fragrances grew into something much greater — a curated destination for perfume lovers across the UAE.</p>
+        <p data-en="We source our collection from the world's finest fragrance houses, selecting only those bottles that tell a genuine story — ones that transport you somewhere, awaken something, or simply make you feel undeniably yourself." data-ar="نحصل على مجموعتنا من أرقى دور العطور في العالم، نختار فقط تلك الزجاجات التي تحكي قصة حقيقية — تلك التي تنقلك إلى مكان ما، أو تُيقظ شيئاً في داخلك، أو تجعلك تشعر بأنك أنت حقاً.">We source our collection from the world's finest fragrance houses, selecting only those bottles that tell a genuine story — ones that transport you somewhere, awaken something, or simply make you feel undeniably yourself.</p>
+        <p data-en="Whether you seek a bold oud-forward statement, a delicate floral whisper, or a modern woody signature, our collection has been assembled with your experience in mind." data-ar="سواء كنت تبحث عن عود جريء، أو زهر رقيق، أو توقيع خشبي عصري، فقد جُمعت مجموعتنا مع مراعاة تجربتك دائماً.">Whether you seek a bold oud-forward statement, a delicate floral whisper, or a modern woody signature, our collection has been assembled with your experience in mind.</p>
+      </div>
+      <div class="value-card">
+        <p class="val-title" data-en="Our Values" data-ar="قيمنا">Our Values</p>
+        <div class="val-item">
+          <span class="val-num">01</span>
+          <div class="val-content">
+            <h4 data-en="Authenticity" data-ar="الأصالة">Authenticity</h4>
+            <p data-en="Every fragrance we carry is 100% genuine. We accept nothing less than the original." data-ar="كل عطر نقدمه أصلي 100%. لا نقبل إلا الأصل.">Every fragrance we carry is 100% genuine. We accept nothing less than the original.</p>
+          </div>
+        </div>
+        <div class="val-item">
+          <span class="val-num">02</span>
+          <div class="val-content">
+            <h4 data-en="Curation" data-ar="الانتقاء">Curation</h4>
+            <p data-en="Our collection is carefully selected — not everything makes the cut. Only the remarkable does." data-ar="مجموعتنا منتقاة بعناية — ليس كل شيء يجتاز المعيار، بل الاستثنائي فقط.">Our collection is carefully selected — not everything makes the cut. Only the remarkable does.</p>
+          </div>
+        </div>
+        <div class="val-item">
+          <span class="val-num">03</span>
+          <div class="val-content">
+            <h4 data-en="Connection" data-ar="التواصل">Connection</h4>
+            <p data-en="We build relationships based on trust, transparency, and a shared love of scent." data-ar="نبني علاقات مبنية على الثقة والشفافية والشغف المشترك بالعطور.">We build relationships based on trust, transparency, and a shared love of scent.</p>
+          </div>
+        </div>
+        <div class="val-item">
+          <span class="val-num">04</span>
+          <div class="val-content">
+            <h4 data-en="Experience" data-ar="التجربة">Experience</h4>
+            <p data-en="From browsing to delivery, every touchpoint should feel elevated and personal." data-ar="من التصفح حتى التوصيل، كل لحظة يجب أن تكون راقية وشخصية.">From browsing to delivery, every touchpoint should feel elevated and personal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-cell"><span class="stat-num">50+</span><span class="stat-lbl" data-en="Unique Fragrances" data-ar="عطور فريدة">Unique Fragrances</span></div>
+      <div class="stat-cell"><span class="stat-num">UAE</span><span class="stat-lbl" data-en="Based & Delivering" data-ar="مقرنا والتوصيل">Based & Delivering</span></div>
+      <div class="stat-cell"><span class="stat-num">100%</span><span class="stat-lbl" data-en="Authentic Guarantee" data-ar="ضمان الأصالة">Authentic Guarantee</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ POLICY PAGE ══════════ -->
+<div id="page-policy" class="page">
+  <div class="page-hero">
+    <h1 class="page-hero-title">
+      <span data-en="Shop Policy" data-ar="سياسة المتجر">Shop Policy</span>
+      <em data-en="Legal & Privacy" data-ar="القانونية والخصوصية">Legal & Privacy</em>
+    </h1>
+  </div>
+  <div class="policy-body">
+    <div class="policy-sec">
+      <h2 data-en="1. General Terms" data-ar="١. الشروط العامة">1. General Terms</h2>
+      <p data-en="By placing an order with Lamoh Perfumes, you agree to the terms outlined in this policy. We reserve the right to update these terms at any time. Continued use of our services constitutes acceptance of the current policy." data-ar="بتقديم طلبك من لامو عطور، فأنت توافق على الشروط المذكورة في هذه السياسة. نحتفظ بحق تحديث هذه الشروط في أي وقت.">By placing an order with Lamoh Perfumes, you agree to the terms outlined in this policy. We reserve the right to update these terms at any time. Continued use of our services constitutes acceptance of the current policy.</p>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="2. Authenticity Guarantee" data-ar="٢. ضمان الأصالة">2. Authenticity Guarantee</h2>
+      <p data-en="Every fragrance sold by Lamoh Perfumes is 100% authentic and sourced directly from authorized distributors. We do not sell counterfeit, tester, or tampered products. If you have any doubts, contact us immediately." data-ar="كل عطر نبيعه أصلي 100% ومصدره موزعون معتمدون. لا نبيع منتجات مزورة أو عينات أو منتجات معدلة. إذا كان لديك أي شك، تواصل معنا فوراً.">Every fragrance sold by Lamoh Perfumes is 100% authentic and sourced directly from authorized distributors. We do not sell counterfeit, tester, or tampered products. If you have any doubts, contact us immediately.</p>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="3. Orders & Payment" data-ar="٣. الطلبات والدفع">3. Orders & Payment</h2>
+      <p data-en="Orders are placed via Instagram DM or WhatsApp. We accept the following payment methods:" data-ar="تُقدَّم الطلبات عبر رسائل إنستغرام المباشرة أو واتساب. نقبل طرق الدفع التالية:">Orders are placed via Instagram DM or WhatsApp. We accept the following payment methods:</p>
+      <ul>
+        <li data-en="Bank Transfer (UAE accounts)" data-ar="تحويل بنكي (حسابات الإمارات)">Bank Transfer (UAE accounts)</li>
+        <li data-en="Cash on Delivery (selected areas)" data-ar="الدفع عند الاستلام (مناطق محددة)">Cash on Delivery (selected areas)</li>
+        <li data-en="PayPal / Wise (on request)" data-ar="باي بال / وايز (عند الطلب)">PayPal / Wise (on request)</li>
+      </ul>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="4. Shipping & Delivery" data-ar="٤. الشحن والتوصيل">4. Shipping & Delivery</h2>
+      <p data-en="We deliver across the UAE. Timeframes:" data-ar="نوصل في جميع أنحاء الإمارات. المدد الزمنية:">We deliver across the UAE. Timeframes:</p>
+      <ul>
+        <li data-en="Dubai: 1–2 business days" data-ar="دبي: ١–٢ أيام عمل">Dubai: 1–2 business days</li>
+        <li data-en="Abu Dhabi & Sharjah: 2–3 business days" data-ar="أبوظبي والشارقة: ٢–٣ أيام عمل">Abu Dhabi & Sharjah: 2–3 business days</li>
+        <li data-en="Other Emirates: 3–5 business days" data-ar="باقي الإمارات: ٣–٥ أيام عمل">Other Emirates: 3–5 business days</li>
+      </ul>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="5. Returns & Exchanges" data-ar="٥. الإرجاع والاستبدال">5. Returns & Exchanges</h2>
+      <p data-en="Due to the nature of perfume products, we do not accept returns on opened items unless the product arrived damaged or is inauthentic. Unopened items may be exchanged within 3 days of delivery, subject to availability." data-ar="نظراً لطبيعة منتجات العطور، لا نقبل إرجاع المنتجات المفتوحة إلا إذا وصلت تالفة أو غير أصلية. يمكن استبدال المنتجات غير المفتوحة خلال ٣ أيام من التوصيل، وفقاً للتوفر.">Due to the nature of perfume products, we do not accept returns on opened items unless the product arrived damaged or is inauthentic. Unopened items may be exchanged within 3 days of delivery, subject to availability.</p>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="6. Privacy Policy" data-ar="٦. سياسة الخصوصية">6. Privacy Policy</h2>
+      <p data-en="Lamoh Perfumes respects your privacy. Any personal information (name, phone, address) is used solely to process and deliver your order. We do not share, sell, or distribute your data to third parties." data-ar="لامو عطور تحترم خصوصيتك. أي معلومات شخصية (الاسم، الهاتف، العنوان) تُستخدم فقط لمعالجة طلبك وتوصيله. لا نشارك أو نبيع أو نوزع بياناتك لأطراف ثالثة.">Lamoh Perfumes respects your privacy. Any personal information (name, phone, address) is used solely to process and deliver your order. We do not share, sell, or distribute your data to third parties.</p>
+    </div>
+    <div class="policy-sec">
+      <h2 data-en="7. Contact" data-ar="٧. التواصل">7. Contact</h2>
+      <p data-en="For any questions, reach out via Instagram @lamohperfumes or WhatsApp +971 55 283 6936." data-ar="لأي استفسار، تواصل معنا عبر إنستغرام @lamohperfumes أو واتساب ‎+971 55 283 6936.">For any questions, reach out via Instagram @lamohperfumes or WhatsApp +971 55 283 6936.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CONTACT PAGE ══════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero">
+    <h1 class="page-hero-title">
+      <span data-en="Get in Touch" data-ar="تواصل معنا">Get in Touch</span>
+      <em data-en="We're here to help" data-ar="نحن هنا للمساعدة">We're here to help</em>
+    </h1>
+  </div>
+  <div class="contact-body">
     <div class="contact-grid">
       <div class="contact-info">
-        <p>Email: <a href="mailto:lamoh_perfumes@example.com">lamoh_perfumes@example.com</a></p>
-        <p>Instagram: <a href="https://www.instagram.com/lamoh_perfumes" target="_blank">@lamoh_perfumes</a></p>
-        <p>Phone: +971-XXX-XXXXXXX</p>
+        <h2 data-en="We'd love to hear from you." data-ar="يسعدنا التواصل معكم.">We'd love to hear from you.</h2>
+        <p data-en="Whether you're looking for a specific fragrance, need help choosing a scent, or have a question about an order — we're here. Reach out through any channel below." data-ar="سواء كنت تبحث عن عطر محدد، أو تحتاج مساعدة في اختيار العطر، أو لديك سؤال عن طلبك — نحن هنا. تواصل معنا عبر أي قناة أدناه.">Whether you're looking for a specific fragrance, need help choosing a scent, or have a question about an order — we're here.</p>
+        <div class="c-links">
+          <a href="https://www.instagram.com/lamohperfumes" target="_blank" class="c-link">
+            <div class="c-icon">📸</div>
+            <div><span class="c-lbl" data-en="Instagram" data-ar="إنستغرام">Instagram</span><span class="c-val">@lamohperfumes</span></div>
+          </a>
+          <a href="https://wa.me/971552836936" target="_blank" class="c-link">
+            <div class="c-icon">💬</div>
+            <div><span class="c-lbl" data-en="WhatsApp" data-ar="واتساب">WhatsApp</span><span class="c-val">+971 55 283 6936</span></div>
+          </a>
+          <div class="c-link">
+            <div class="c-icon">📍</div>
+            <div><span class="c-lbl" data-en="Location" data-ar="الموقع">Location</span><span class="c-val" data-en="Dubai, UAE" data-ar="دبي، الإمارات">Dubai, UAE</span></div>
+          </div>
+        </div>
       </div>
-      <div class="contact-form">
-        <input type="text" placeholder="Your Name">
-        <input type="email" placeholder="Your Email">
-        <textarea placeholder="Message"></textarea>
-        <button>Send Message</button>
+      <div class="contact-card">
+        <h3 data-en="Send a Message" data-ar="أرسل رسالة">Send a Message</h3>
+        <div class="f-field">
+          <label data-en="Your Name" data-ar="اسمك">Your Name</label>
+          <input type="text" id="cName" placeholder="e.g. Ahmed Al Mansoori">
+        </div>
+        <div class="f-field">
+          <label data-en="Phone / WhatsApp" data-ar="الهاتف / واتساب">Phone / WhatsApp</label>
+          <input type="tel" id="cPhone" placeholder="+971 XX XXX XXXX">
+        </div>
+        <div class="f-field">
+          <label data-en="Subject" data-ar="الموضوع">Subject</label>
+          <select id="cSubject">
+            <option data-en="Select a topic" data-ar="اختر موضوعاً">Select a topic</option>
+            <option data-en="Order a Fragrance" data-ar="طلب عطر">Order a Fragrance</option>
+            <option data-en="Track My Order" data-ar="تتبع طلبي">Track My Order</option>
+            <option data-en="Fragrance Recommendation" data-ar="توصية عطر">Fragrance Recommendation</option>
+            <option data-en="Other" data-ar="أخرى">Other</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label data-en="Message" data-ar="الرسالة">Message</label>
+          <textarea id="cMsg" placeholder="Tell us what you're looking for..."></textarea>
+        </div>
+        <button class="f-submit" onclick="sendWhatsApp()" data-en="Send via WhatsApp →" data-ar="أرسل عبر واتساب ←">Send via WhatsApp →</button>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>&copy; 2026 Lamoh Perfumes. All Rights Reserved.</p>
-    <div class="social-links">
-      <a href="https://www.instagram.com/lamoh_perfumes" target="_blank">Instagram</a>
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo" style="cursor:default;">
+          <span class="logo-main" data-en="LAMOH" data-ar="لامو">LAMOH</span>
+          <span class="logo-sub" data-en="Perfumes" data-ar="عطور">Perfumes</span>
+        </div>
+        <p data-en="A curated fragrance destination based in Dubai. We bring the world's finest scents to you." data-ar="وجهة عطور منتقاة في دبي. نجلب إليك أرقى العطور في العالم.">A curated fragrance destination based in Dubai. We bring the world's finest scents to you.</p>
+      </div>
+      <div class="footer-col">
+        <h4 data-en="Navigate" data-ar="التنقل">Navigate</h4>
+        <button onclick="showPage('home')" data-en="Home" data-ar="الرئيسية">Home</button>
+        <button onclick="showPage('about')" data-en="About Us" data-ar="من نحن">About Us</button>
+        <button onclick="showPage('policy')" data-en="Shop Policy" data-ar="سياسة المتجر">Shop Policy</button>
+        <button onclick="showPage('contact')" data-en="Contact" data-ar="تواصل معنا">Contact</button>
+      </div>
+      <div class="footer-col">
+        <h4 data-en="Follow" data-ar="تابعنا">Follow</h4>
+        <a href="https://www.instagram.com/lamohperfumes" target="_blank">Instagram</a>
+        <a href="https://www.tiktok.com/@lamohperfumes" target="_blank">TikTok</a>
+        <a href="https://wa.me/971552836936" target="_blank">WhatsApp</a>
+      </div>
     </div>
-  </footer>
+    <div class="footer-bottom">
+      <p class="footer-copy" data-en="© 2026 Lamoh Perfumes · Dubai, UAE" data-ar="© 2026 لامو عطور · دبي، الإمارات">© 2026 Lamoh Perfumes · Dubai, UAE</p>
+    </div>
+  </div>
+</footer>
 
+<script>
+// ── DATA ──
+const WHATSAPP_NUMBER = '971552836936';
+
+const products = [
+  {
+    id: 1,
+    category: { en: 'Oriental · Woody', ar: 'شرقي · خشبي' },
+    name: { en: 'Amber Nuit', ar: 'عنبر نويت' },
+    price: 350,
+    badge: { en: 'Bestseller', ar: 'الأكثر مبيعاً' },
+    bio: {
+      en: 'A deeply sensual oriental composition that opens with the warmth of golden amber, journeys through precious sandalwood, and settles into a lingering trail of vanilla and soft smoke. Perfect for evenings that demand presence.',
+      ar: 'تركيبة شرقية حسية عميقة تنفتح بدفء العنبر الذهبي، وتمر عبر خشب الصندل الثمين، لتستقر في ذيل من الفانيليا والدخان الناعم. مثالية لأمسيات تستحق الحضور.'
+    },
+    notes: { en: ['Amber','Sandalwood','Vanilla','Smoke'], ar: ['عنبر','صندل','فانيليا','دخان'] },
+    specs: {
+      en: [['Size','100 ml'],['Concentration','EDP'],['Gender','Unisex'],['Origin','UAE']],
+      ar: [['الحجم','١٠٠ مل'],['التركيز','EDP'],['الجنس','للجنسين'],['المنشأ','الإمارات']]
+    },
+    bottleColor: 'rgba(180,120,30,0.35)'
+  },
+  {
+    id: 2,
+    category: { en: 'Fresh · Floral', ar: 'منعش · زهري' },
+    name: { en: 'Brise Blanc', ar: 'بريز بلان' },
+    price: 280,
+    badge: null,
+    bio: {
+      en: 'A breath of fresh air captured in a bottle. Brise Blanc combines the freshness of an ocean breeze with delicate white florals and a clean, soft musk base. Effortlessly elegant for everyday wear.',
+      ar: 'نفس من الهواء المنعش محبوس في زجاجة. يجمع بريز بلان بين انتعاش نسيم المحيط وأزهار بيضاء رقيقة وقاعدة مسك ناعمة ونظيفة. أناقة سهلة للاستخدام اليومي.'
+    },
+    notes: { en: ['Sea Salt','White Tea','Jasmine','Musk'], ar: ['ملح بحري','شاي أبيض','ياسمين','مسك'] },
+    specs: {
+      en: [['Size','75 ml'],['Concentration','EDT'],['Gender','Feminine'],['Origin','France']],
+      ar: [['الحجم','٧٥ مل'],['التركيز','EDT'],['الجنس','نسائي'],['المنشأ','فرنسا']]
+    },
+    bottleColor: 'rgba(180,200,230,0.28)'
+  },
+  {
+    id: 3,
+    category: { en: 'Oud · Rose', ar: 'عود · ورد' },
+    name: { en: 'Malak Al Oud', ar: 'ملك العود' },
+    price: 520,
+    badge: { en: 'Premium', ar: 'بريميوم' },
+    bio: {
+      en: 'The king of our collection. Malak Al Oud is an opulent tribute to the finest Arabian oud tradition — layered with Bulgarian rose, dark resins, and a base of pure agarwood that evolves beautifully on the skin for hours.',
+      ar: 'ملك مجموعتنا. ملك العود هو تحية فاخرة لأرقى تقاليد العود العربي — طبقات من الورد البلغاري والراتنجات الداكنة وقاعدة من خشب العود الخالص الذي يتطور بشكل جميل على الجلد لساعات.'
+    },
+    notes: { en: ['Oud','Bulgarian Rose','Resin','Agarwood'], ar: ['عود','ورد بلغاري','راتنج','خشب عود'] },
+    specs: {
+      en: [['Size','100 ml'],['Concentration','Parfum'],['Gender','Unisex'],['Origin','UAE']],
+      ar: [['الحجم','١٠٠ مل'],['التركيز','برفان'],['الجنس','للجنسين'],['المنشأ','الإمارات']]
+    },
+    bottleColor: 'rgba(100,55,15,0.45)'
+  }
+];
+
+const faqs = [
+  {
+    q: { en: 'Are all your fragrances 100% authentic?', ar: 'هل جميع عطوركم أصلية 100%؟' },
+    a: { en: 'Yes, absolutely. Every fragrance we sell is sourced directly from authorized distributors and is guaranteed to be authentic. We do not deal in counterfeits, testers, or tampered products.', ar: 'نعم، بالتأكيد. كل عطر نبيعه مصدره موزعون معتمدون ومضمون الأصالة. لا نتعامل في منتجات مزورة أو عينات أو منتجات معدلة.' }
+  },
+  {
+    q: { en: 'How do I place an order?', ar: 'كيف أقدم طلباً؟' },
+    a: { en: 'Simply click "Buy on WhatsApp" on any product, or send us a direct message on Instagram @lamohperfumes. We\'ll confirm your order and payment details within 24 hours.', ar: 'ما عليك سوى النقر على "اشتر عبر واتساب" في أي منتج، أو أرسل لنا رسالة مباشرة على إنستغرام @lamohperfumes. سنؤكد طلبك وتفاصيل الدفع خلال ٢٤ ساعة.' }
+  },
+  {
+    q: { en: 'Do you deliver across the UAE?', ar: 'هل توصلون في جميع أنحاء الإمارات؟' },
+    a: { en: 'Yes! We deliver to all Emirates. Dubai orders arrive in 1–2 business days, Abu Dhabi and Sharjah in 2–3 days, and other Emirates in 3–5 business days.', ar: 'نعم! نوصل لجميع الإمارات. طلبات دبي تصل خلال ١–٢ يوم عمل، وأبوظبي والشارقة خلال ٢–٣ أيام، وبقية الإمارات خلال ٣–٥ أيام عمل.' }
+  },
+  {
+    q: { en: 'What payment methods do you accept?', ar: 'ما طرق الدفع المقبولة؟' },
+    a: { en: 'We accept bank transfers (UAE accounts), cash on delivery for selected areas, and PayPal/Wise upon request. Payment details are shared upon order confirmation.', ar: 'نقبل التحويل البنكي (حسابات الإمارات)، والدفع عند الاستلام لمناطق محددة، وباي بال/وايز عند الطلب. تُشارَك تفاصيل الدفع عند تأكيد الطلب.' }
+  },
+  {
+    q: { en: 'Can I return or exchange a fragrance?', ar: 'هل يمكنني إرجاع أو استبدال عطر؟' },
+    a: { en: 'Unopened items can be exchanged within 3 days of delivery, subject to availability. We do not accept returns on opened products unless they arrived damaged or are proven inauthentic.', ar: 'يمكن استبدال المنتجات غير المفتوحة خلال ٣ أيام من التوصيل وفقاً للتوفر. لا نقبل إرجاع المنتجات المفتوحة إلا إذا وصلت تالفة أو ثبت أنها غير أصلية.' }
+  }
+];
+
+// ── LANGUAGE STATE ──
+let currentLang = 'en';
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'ar' : 'en';
+  const html = document.documentElement;
+  html.setAttribute('lang', currentLang);
+  html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('langBtn').textContent = currentLang === 'en' ? 'عربي' : 'English';
+  document.getElementById('backArrow').textContent = currentLang === 'ar' ? '→' : '←';
+  applyLang();
+  renderProducts();
+  renderFAQ();
+}
+
+function applyLang() {
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + currentLang);
+    if (val !== null) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+      el.innerHTML = val;
+    }
+  });
+  document.querySelectorAll('[data-en-placeholder]').forEach(el => {
+    el.placeholder = el.getAttribute('data-' + currentLang + '-placeholder');
+  });
+  // select options
+  document.querySelectorAll('select option[data-en]').forEach(opt => {
+    opt.textContent = opt.getAttribute('data-' + currentLang) || opt.textContent;
+  });
+}
+
+// ── THEME ──
+function toggleTheme() {
+  const html = document.documentElement;
+  html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+}
+
+// ── NAV ──
+function toggleNav() {
+  document.getElementById('mainNav').classList.toggle('open');
+}
+
+// ── PAGE ROUTING ──
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  if (pg) pg.classList.add('active');
+  const lnk = document.querySelector(`nav a[data-page="${name}"]`);
+  if (lnk) lnk.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('mainNav').classList.remove('open');
+}
+
+// ── BOTTLE CSS ──
+function bottleHTML(color) {
+  return `<div class="bottle">
+    <div class="b-cap" style="width:40px;background:linear-gradient(135deg,${color},rgba(0,0,0,0.2));border:1px solid rgba(201,169,110,0.2);"></div>
+    <div class="b-neck" style="width:28px;background:linear-gradient(135deg,${color},rgba(0,0,0,0.15));border:1px solid rgba(201,169,110,0.15);"></div>
+    <div class="b-body" style="width:72px;height:130px;background:linear-gradient(135deg,${color},rgba(0,0,0,0.1),${color});border:1px solid rgba(201,169,110,0.18);"></div>
+  </div>
+  <div class="bottle-glow"></div>`;
+}
+
+// ── RENDER PRODUCTS ──
+function renderProducts(filter = '') {
+  const grid = document.getElementById('productsGrid');
+  const noRes = document.getElementById('noResults');
+  const L = currentLang;
+  const filtered = products.filter(p =>
+    p.name[L].toLowerCase().includes(filter.toLowerCase()) ||
+    p.category[L].toLowerCase().includes(filter.toLowerCase()) ||
+    p.notes[L].some(n => n.toLowerCase().includes(filter.toLowerCase()))
+  );
+  noRes.style.display = filtered.length === 0 ? 'block' : 'none';
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <div class="product-img-wrap">
+        ${bottleHTML(p.bottleColor)}
+        ${p.badge ? `<span class="product-badge">${p.badge[L]}</span>` : ''}
+      </div>
+      <div class="product-body">
+        <p class="product-cat">${p.category[L]}</p>
+        <h3 class="product-name">${p.name[L]}</h3>
+        <p class="product-desc">${p.bio[L].substring(0,120)}...</p>
+        <div class="product-notes">${p.notes[L].map(n => `<span class="note">${n}</span>`).join('')}</div>
+        <div class="product-footer">
+          <div class="product-price">${p.price}<sup>AED</sup></div>
+          <button class="view-btn" onclick="openDetail(${p.id})">${L === 'ar' ? 'عرض التفاصيل' : 'View Details'}</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProducts() {
+  renderProducts(document.getElementById('searchInput').value);
+}
+
+// ── PRODUCT DETAIL ──
+function openDetail(id) {
+  const p = products.find(x => x.id === id);
+  const L = currentLang;
+  document.getElementById('detailCat').textContent = p.category[L];
+  document.getElementById('detailName').textContent = p.name[L];
+  document.getElementById('detailPrice').innerHTML = `${p.price}<sup>AED</sup>`;
+  document.getElementById('detailBio').textContent = p.bio[L];
+  document.getElementById('detailNotes').innerHTML = p.notes[L].map(n => `<span class="note">${n}</span>`).join('');
+  document.getElementById('detailSpecs').innerHTML = p.specs[L].map(([k,v]) =>
+    `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>`
+  ).join('');
+  const msg = encodeURIComponent(`Hello Lamoh Perfumes! I'm interested in ordering: ${p.name.en} (${p.price} AED). Can you assist me?`);
+  document.getElementById('detailWhatsApp').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+  document.getElementById('detailWhatsApp').querySelector('span').textContent = L === 'ar' ? 'اشتر عبر واتساب' : 'Buy on WhatsApp';
+  document.getElementById('detailBottle').innerHTML = bottleHTML(p.bottleColor);
+  showPage('detail');
+}
+
+// ── FAQ ──
+function renderFAQ() {
+  const L = currentLang;
+  const container = document.getElementById('faqList');
+  container.innerHTML = faqs.map((f,i) => `
+    <div class="faq-item" id="faq${i}">
+      <button class="faq-question" onclick="toggleFAQ(${i})">
+        <span class="faq-q-text">${f.q[L]}</span>
+        <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer"><p>${f.a[L]}</p></div>
+    </div>
+  `).join('');
+}
+
+function toggleFAQ(i) {
+  const item = document.getElementById('faq' + i);
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── CONTACT WHATSAPP ──
+function sendWhatsApp() {
+  const name = document.getElementById('cName').value;
+  const phone = document.getElementById('cPhone').value;
+  const subject = document.getElementById('cSubject').value;
+  const msg = document.getElementById('cMsg').value;
+  const text = encodeURIComponent(`Hello Lamoh Perfumes!\n\nName: ${name}\nPhone: ${phone}\nSubject: ${subject}\nMessage: ${msg}`);
+  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+}
+
+// ── INIT ──
+renderProducts();
+renderFAQ();
+</script>
 </body>
 </html>
